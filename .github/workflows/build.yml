@@ -22,6 +22,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+          strategy: 'cache' # Use cache to speed up installation
+
+      - name: Install specific Node.js version
+        run: |
+          echo "Using Node.js version $(node --version)"
+          sudo npm install -g firebase-tools@latest
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v1
