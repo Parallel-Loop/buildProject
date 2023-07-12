@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -14,10 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('The Firebase distribution App'),
+        appBar: AppBar(
+          title: const Text('Distribution Testing App'),
+        ),
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: const Column(
+            children: [
+              Text('The Firebase distribution App'),
+              Text(
+                'If you are reading this text it means the app is automatically distributed to you.',
+                textAlign: TextAlign.center,
+              ),
+              Spacer(),
+              FlutterLogo(
+                  size: 200,
+                  style: FlutterLogoStyle.horizontal,
+                  textColor: Colors.indigo),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );
