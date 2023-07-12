@@ -31,11 +31,15 @@ class MyApp extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Spacer(),
-              FlutterLogo(
-                  size: 200,
-                  style: FlutterLogoStyle.horizontal,
-                  textColor: Colors.indigo),
+              Badge(
+                label: Icon(Icons.heart_broken_rounded),
+                child: FlutterLogo(
+                    size: 200,
+                    style: FlutterLogoStyle.horizontal,
+                    textColor: Colors.indigo),
+              ),
               Spacer(),
+
             ],
           ),
         ),
