@@ -10,8 +10,15 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool horizontal = true;
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +30,38 @@ class MyApp extends StatelessWidget {
         body: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: const Column(
+          child: Column(
             children: [
-              Text('The Firebase distribution App'),
-              Text(
+              const Text('The Firebase distribution App'),
+              const Text(
                 'If you are reading this text it means the app is automatically distributed to you.',
                 textAlign: TextAlign.center,
               ),
-              Spacer(),
-              Badge(
-                label: Icon(Icons.heart_broken_rounded),
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    horizontal = !horizontal;
+                  });
+                },
                 child: FlutterLogo(
                     size: 200,
-                    style: FlutterLogoStyle.horizontal,
+                    style: horizontal
+                        ? FlutterLogoStyle.horizontal
+                        : FlutterLogoStyle.stacked,
+                    curve: Curves.bounceIn,
+                    duration: const Duration(seconds: 3),
                     textColor: Colors.indigo),
               ),
-              Spacer(),
-
+              const Spacer(),
+              const Text(
+                'the purpose of this app is to automate the process of testing the release versions.',
+                textAlign: TextAlign.center,
+              ),
+              const Text(
+                'This app itself contains nothing, but it will make the way for others.',
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
