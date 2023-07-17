@@ -48,6 +48,11 @@ jobs:
           path: version1.txt
       - name: Update version in YAML
         run: sed -i 's/99.99.99+99/${{ steps.version.outputs.content }}+${{ github.run_number }}/g' pubspec.yaml
+        
+        # This step will create the PLApp.jks file using the content stored in the KEYSTORE_FILE secret.
+      - name: Prepare Keystore file
+        run: echo "${{ secrets.KEYSTORE_FILE }}" > android/app/PLApp.jks
+        
         # Create the key.properties file with secrets
       - name: Create key.properties
         run: |
