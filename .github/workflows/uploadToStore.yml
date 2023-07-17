@@ -65,6 +65,8 @@ jobs:
         run: |
           echo "keyAlias=key0" >> android/key.properties
           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           
       - name: Update KeyStore password in gradle properties
         run: sed -i 's/#{STORE_PASSWORD}#/${{ secrets.STORE_PASSWORD }}/g' android/key.properties
