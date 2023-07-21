@@ -6,6 +6,8 @@ on:
       - main
 
 jobs:
+#this workflow contains 3 jobs
+#1- Version: this job just increaments the version number of the app, so user doesn't have to update the version number manaually
   version:
     name: Create version number
     runs-on: ubuntu-latest
@@ -29,6 +31,7 @@ jobs:
         with:
           name: gitversion
           path: version.txt
+  #2- Build: this job creates the release apk and sign in with keystore file using github secrets
   build:
     name: Build APK and Create release
     needs: [version]
@@ -86,6 +89,7 @@ jobs:
         with:
           name: appbundle
           path: build/app/outputs/bundle/release/app-release.aab
+  #3- Release: this job uploads the signed apk to playstore internal track
   release:
     name: Release app to internal track
     needs: [build]
