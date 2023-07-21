@@ -31,7 +31,7 @@ jobs:
         with:
           name: gitversion
           path: version.txt
-  #2- Build: this job creates the release apk and sign in with keystore file using github secrets
+  #2- Build: this job creates the release apk and sign in with keystore file using github secrets, 
   build:
     name: Build APK and Create release
     needs: [version]
