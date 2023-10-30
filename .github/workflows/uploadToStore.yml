@@ -1,0 +1,42 @@
+name: Upload to Play Store Internal Testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build appbundle
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/authenticate-gcloud@v0.3.0
+        with:
+          credentials: ${{ secrets.GCP_SA_KEY }}
+
+
+      - name: Upload AAB to Play Store Internal Testing
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/credentials.json
+          gcloud config set project YOUR_PROJECT_ID
+          gcloud alpha app versions upload --quiet --no-promote --track internal $GITHUB_WORKSPACE/build/app/outputs/bundle/release/app-release.aab
