@@ -43,8 +43,10 @@ jobs:
         run: flutter build apk --release
 
       - name: Authenticate with Firebase
-        run: echo "${{ secrets.CREDENTIAL_FILE_CONTENT }}" > $GITHUB_WORKSPACE/firebase-service-account.json
-      - run: firebase auth:import --token "${{ secrets.FIREBASE_TOKEN }}" --project "${{ secrets.FIREBASE_PROJECT_ID }}" $GITHUB_WORKSPACE/firebase-service-account.json
+        run: echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > $GITHUB_WORKSPACE/firebase-service-account.json
+
+      - name: Set Google Application Credentials
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/firebase-service-account.json
 
       - name: Deploy to Firebase App Distribution
-        run: firebase appdistribution:distribute --app "${{ secrets.FIREBASE_APP_ID }}" --release-notes "${{ github.event.head_commit.message }}" --groups buildApp --token "${{ secrets.FIREBASE_TOKEN }}" --apk build/app/outputs/flutter-apk/app-release.apk
+        run: firebase appdistribution:distribute --app "${{ secrets.FIREBASE_APP_ID }}" --release-notes "${{ github.event.head_commit.message }}" --groups buildApp --apk build/app/outputs/flutter-apk/app-release.apk
