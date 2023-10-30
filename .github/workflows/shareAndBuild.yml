@@ -42,26 +42,9 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
       - name: Authenticate with Firebase
-        run: firebase login:ci --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
+        run: echo "${{ secrets.CREDENTIAL_FILE_CONTENT }}" > $GITHUB_WORKSPACE/firebase-service-account.json
+      - run: firebase auth:import --token "${{ secrets.FIREBASE_TOKEN }}" --project "${{ secrets.FIREBASE_PROJECT_ID }}" $GITHUB_WORKSPACE/firebase-service-account.json
 
       - name: Deploy to Firebase App Distribution
         run: firebase appdistribution:distribute --app "${{ secrets.FIREBASE_APP_ID }}" --release-notes "${{ github.event.head_commit.message }}" --groups buildApp --token "${{ secrets.FIREBASE_TOKEN }}" --apk build/app/outputs/flutter-apk/app-release.apk
-
-      # - name: Authenticate with Firebase
-      #   run: |
-      #     echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > $GITHUB_WORKSPACE/firebase-service-account.json
-      #     firebase auth:import --token $FIREBASE_TOKEN --project $FIREBASE_PROJECT_ID $GITHUB_WORKSPACE/firebase-service-account.json
-      #   env:
-      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      #     FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-
-      # - name: Distribute APK via Firebase
-      #   run: |
-      #     firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app $FIREBASE_APP_ID --groups buildApp --release-notes "${{ github.event.head_commit.message }}"
-      #   env:
-      #     FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-      #     FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
