@@ -32,10 +32,11 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
             children: [
-              const Text('The Firebase distribution App'),
+              const Text('The Firebase distribution App',style: TextStyle(color: Colors.red),),
               const Text(
                 'If you are reading this text it means the app is automatically distributed to you.',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.green),
               ),
               const Spacer(),
               InkWell(
@@ -57,10 +58,12 @@ class _MyAppState extends State<MyApp> {
               const Text(
                 'the purpose of this app is to automate the process of testing the release versions.',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.deepPurpleAccent),
               ),
               const Text(
                 'This app itself contains nothing, but it will make the way for others.',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.teal),
               ),
             ],
           ),
