@@ -49,5 +49,9 @@ jobs:
         run: export GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/firebase-service-account.json
 
       - name: Deploy to Firebase App Distribution
-        run: firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app "${{ secrets.FIREBASE_APP_ID }}" --release-notes "${{ github.event.head_commit.message }}" --groups buildApp
-
+        run: |
+          firebase appdistribution:distribute "build/app/outputs/flutter-apk/app-release.apk" \
+            --app "${{ secrets.FIREBASE_APP_ID }}" \
+            --release-notes "${{ github.event.head_commit.message }}" \
+            --groups buildApp \
+            --token "${{ secrets.FIREBASE_TOKEN }}"
