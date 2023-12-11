@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-#this workflow contains 3 jobs
+#this workflow contains 3 jobs 
 #1- Version: this job just increaments the version number of the app, so user doesn't have to update the version number manaually
   version:
     name: Create version number
